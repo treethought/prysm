@@ -93,6 +93,8 @@ func (h *EventStream) Subscribe(eventsChannel chan<- *Event) {
 			EventType: EventConnectionError,
 			Data:      []byte(errors.Wrap(err, client.ErrConnectionIssue.Error()).Error()),
 		}
+		close(eventsChannel)
+		return
 	}
 
 	defer func() {
